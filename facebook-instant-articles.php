@@ -74,7 +74,6 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 
 	require_once( dirname( __FILE__ ) . '/embeds.php' );
 	require_once( dirname( __FILE__ ) . '/class-instant-articles-post.php' );
-	require_once( dirname( __FILE__ ) . '/settings/class-instant-articles-settings.php' );
 	require_once( dirname( __FILE__ ) . '/wizard/class-instant-articles-wizard.php' );
 	require_once( dirname( __FILE__ ) . '/meta-box/class-instant-articles-meta-box.php' );
 	require_once( dirname( __FILE__ ) . '/class-instant-articles-publisher.php' );
@@ -98,7 +97,7 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 	function instant_articles_redirect_settings() {
 		if ( get_option( 'instant_articles_redirect_settings_flag', false ) ) {
 			delete_option( 'instant_articles_redirect_settings_flag' );
-			exit( wp_redirect( Instant_Articles_Settings::get_href_to_settings_page() ) );
+			exit( wp_redirect( Instant_Articles_Wizard::get_url() ) );
 		}
 	}
 
@@ -200,7 +199,6 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 				) );
 			}
 		}
-
 	}
 	add_action( 'pre_get_posts', 'instant_articles_query', 10, 1 );
 
@@ -238,10 +236,6 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 		wp_register_style(
 			'instant-articles-meta-box',
 			plugins_url( '/css/instant-articles-meta-box.css', __FILE__ )
-		);
-		wp_register_style(
-			'instant-articles-settings-wizard',
-			plugins_url( '/css/instant-articles-settings-wizard.css', __FILE__ )
 		);
 		wp_register_style(
 			'instant-articles-settings',
@@ -331,9 +325,6 @@ if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
 		}
 	}
 	add_action( 'wp_head', 'inject_url_claiming_meta_tag' );
-
-	// Initialize the Instant Articles settings page.
-	Instant_Articles_Settings::init();
 
 	// Initialize the Instant Articles meta box.
 	Instant_Articles_Meta_Box::init();
