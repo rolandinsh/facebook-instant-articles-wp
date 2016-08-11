@@ -191,7 +191,7 @@ class Instant_Articles_Post {
 			return __( 'There is no excerpt because this is a protected post.' );
 		}
 
-		// Make sure no “read more” link is added.
+		// Make sure no “read more�? link is added.
 		add_filter( 'excerpt_more', '__return_empty_string', 999 );
 
 		/**
@@ -689,7 +689,10 @@ class Instant_Articles_Post {
 		$libxml_previous_state = libxml_use_internal_errors( true );
 		$document = new DOMDocument( '1.0', get_option( 'blog_charset' ) );
 		$content = $this->get_the_content();
-
+                
+                                if ( post_password_required( $this->_post->ID ) ) {
+		  $content= 'Post is protected with password' ;
+		}
 		// DOMDocument isn’t handling encodings too well, so let’s help it a little.
 		if ( function_exists( 'mb_convert_encoding' ) ) {
 			$content = mb_convert_encoding( $content, 'HTML-ENTITIES', get_option( 'blog_charset' ) );
